@@ -92,6 +92,7 @@ function dice20C(player) {
 
             console.log(`${player[turn].name} received damage: HITPOINTS: ${player[turn].powerstats.hitpoints}`);
             player.forEach( (element) => {
+                console.log(element.name);
                 console.log(element.powerstats);
             })
             return player;
@@ -110,6 +111,7 @@ function dice20C(player) {
 
             console.log(`${player[turn].name} received damage: HITPOINTS: ${player[turn].powerstats.hitpoints}`);
             player.forEach( (element) => {
+                console.log(element.name);
                 console.log(element.powerstats);
             })
             
@@ -129,6 +131,7 @@ function dice20C(player) {
             console.log("DAMAGE:", damage);
             console.log(`${player[turn + 1].name} received damage: HITPOINTS: ${player[turn + 1].powerstats.hitpoints}`);
             player.forEach( (element) => {
+                console.log(element.name);
                 console.log(element.powerstats);
             })
 
@@ -142,6 +145,7 @@ function dice20C(player) {
 
             console.log(`${player[turn - 1].name} received damage: HITPOINTS: ${player[turn - 1].powerstats.hitpoints}`);
             player.forEach( (element) => {
+                console.log(element.name);
                 console.log(element.powerstats);
             })
 
@@ -164,9 +168,9 @@ function dice20C(player) {
                     console.log("DAMAGE:", damage);
                     console.log(`${player[turn + 1].name} received damage: HITPOINTS: ${player[turn + 1].powerstats.hitpoints}`);
                     player.forEach( (element) => {
+                        console.log(element.name);
                         console.log(element.powerstats);
                     })
-
                 }
                 else {
 
@@ -174,6 +178,7 @@ function dice20C(player) {
 
                     console.log(`${player[turn - 1].name} received damage: HITPOINTS: ${player[turn - 1].powerstats.hitpoints}`);
                     player.forEach( (element) => {
+                        console.log(element.name);
                         console.log(element.powerstats);
                     })
 
@@ -195,6 +200,7 @@ function dice20C(player) {
                     console.log(`${player[turn + 1].name} received damage: HITPOINTS: ${player[turn + 1].powerstats.hitpoints}`);
 
                     player.forEach( (element) => {
+                        console.log(element.name);
                         console.log(element.powerstats);
                     })
                 }
@@ -204,6 +210,7 @@ function dice20C(player) {
                     console.log(`${player[turn - 1].name} received damage: HITPOINTS: ${player[turn - 1].powerstats.hitpoints}`);
 
                     player.forEach( (element) => {
+                        console.log(element.name);
                         console.log(element.powerstats);
                     })
 
@@ -221,6 +228,7 @@ function dice20C(player) {
                     player[turn + 1].powerstats.hitpoints -= damage;
                     console.log(`${player[turn + 1].name} received damage: HITPOINTS: ${player[turn + 1].powerstats.hitpoints}`);
                     player.forEach( (element) => {
+                        console.log(element.name);
                         console.log(element.powerstats);
                     })
 
@@ -229,9 +237,9 @@ function dice20C(player) {
                     player[turn - 1].powerstats.hitpoints -= damage;
                     console.log(`${player[turn - 1].name} received damage: HITPOINTS: ${player[turn - 1].powerstats.hitpoints}`);
                     player.forEach( (element) => {
+                        console.log(element.name);
                         console.log(element.powerstats);
                     })
-
                     turn--;
                     
                 }
