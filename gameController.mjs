@@ -1,8 +1,8 @@
-import { getDado5C } from "./functions.mjs";
+import { getDado } from "./functions.mjs";
 
 let turn = 0;
 
-function gameStart(villain, superHero, D100C, D20C, D3C) {
+function gameStart(villain, superHero) {
     console.log(`${villain.name} VS ${superHero.name}`);
     console.log("--------------------------------------------------");
     const players = [];
@@ -20,20 +20,21 @@ function gameStart(villain, superHero, D100C, D20C, D3C) {
     console.log(superHero.powerstats.hitpoints);
 
     while (villain.powerstats.hitpoints > 0 && superHero.powerstats.hitpoints > 0) {
+        console.log("-----------------------------------------");
         console.log(`ROUND: ${round}`);
         
         if (turn === 0) {
-            console.log(`TURNO DE ${players[turn].name}`);
-            throwDices(D100C, D20C, D3C, players);
+            console.log(`El ASALTO ES DE: ${players[turn].name}`);
+            throwDices(players);
 
             turn = 1;
             round++;
         }
         else if (turn === 1){
 
-            console.log(`TURNO DE ${players[turn].name}`);
+            console.log(`EL ASALTO ES DE: ${players[turn].name}`);
 
-            throwDices(D100C, D20C, D3C, players);
+            throwDices(players);
             turn = 0;
             round++;
         }
@@ -42,31 +43,26 @@ function gameStart(villain, superHero, D100C, D20C, D3C) {
     players.forEach( (element) => {
         if (element.powerstats.hitpoints < 0)
         {
-            console.log(`${element.name} HA PERDIDO EL COMBATE`)
+            console.log(`${element.name} HA SIDO DERROTADO`)
         }
     })
 
-    players.forEach ( (element) => {
-        if (element.powerstats.hitpoints > 0)
-        {
-            console.log(`${element.name} HA GANADO EL COMBATE`)
-        } 
-    })
+   
 }
 
 
 
-function throwDices(D100C, D20C, D3C, player) {
-    let diceValue = D100C[Math.floor(Math.random() * D100C.length)];
-    console.log(`Valor del dado 100 caras: ${diceValue}`);
+function throwDices(player) {
+    let diceValue = getDado(100);
+    console.log(`Valor del dado: ${diceValue}`);
     if (diceValue <= player[turn].powerstats.combat) {
-        console.log("Exito al lanzar dado de 100 caras");
-        dice20C(D20C, player, D3C);
+        console.log("Exito al lanzar dado");
+        dice20C(player);
 
         return player;
     }
     else {
-        console.log("Fallo, el dado tiene un valor mas alto que tu combate");
+        console.log("Fallo, el dado tiene un valor mas alto que tu combate, cambio de turno");
         return player;
 
     }
@@ -75,45 +71,49 @@ function throwDices(D100C, D20C, D3C, player) {
 
 
 
-function dice20C(D20C, player, D3C) {
-    let diceValue = D20C[Math.floor(Math.random() * D20C.length)];
-    let damage = -1;
+function dice20C(player) {
+    let diceValue = getDado(20);;
+    let damage = 0;
     let indexDice = 0;
     let dice3Cvalue = 0;
     let dice5Cvalue = 0;
-    console.log(`Valor del dado de 20 caras: ${diceValue}`);
+    console.log(`El jugador obtiene un valor de: ${diceValue}`);
 
-
-
-    const dice5C = getDado5C();
 
     if (diceValue > 0 && diceValue < 3) {
         console.log("PIFIA EL JUGADOR ACTUAL RECIBIRA EL DAÑO");
 
         if (diceValue === 1) {
             while (indexDice < 1) {
-                dice3Cvalue += D3C[Math.floor(Math.random() * D3C.length)]
+                dice3Cvalue += getDado(3);
                 indexDice++;
             }
             damage = Math.floor(player[turn].powerstats.speed / dice3Cvalue);
 
             console.log(`${player[turn].name} received damage: HITPOINTS: ${player[turn].powerstats.hitpoints}`);
+            player.forEach( (element) => {
+                console.log(element.powerstats);
+            })
             return player;
-
 
         }
 
         else {
             while (indexDice < 4) {
-                dice3Cvalue += D3C[Math.floor(Math.random() * D3C.length)]
+                dice3Cvalue += getDado(3);
                 indexDice++;
             }
             damage = Math.floor(player[turn].powerstats.speed / dice3Cvalue);
 
             player[turn].powerstats.hitpoints -= damage;
-            console.log("DAMAGE", damage);
+            console.log("DAMAGE:", damage);
 
             console.log(`${player[turn].name} received damage: HITPOINTS: ${player[turn].powerstats.hitpoints}`);
+            player.forEach( (element) => {
+                console.log(element.powerstats);
+            })
+            
+
 
             return player;
 
@@ -124,10 +124,13 @@ function dice20C(D20C, player, D3C) {
     else if (diceValue > 2 && diceValue < 18) {
         console.log("NORMAL");
         if (turn === 0) {
-            damage = (player[turn].powerstats.strength + player[turn].powerstats.power) * (diceValue / 100);
+            damage= Math.floor((player[turn].powerstats.strength + player[turn].powerstats.power) * (diceValue / 100));
             player[turn + 1].powerstats.hitpoints -= damage;
-            console.log("DAMAGE", damage);
+            console.log("DAMAGE:", damage);
             console.log(`${player[turn + 1].name} received damage: HITPOINTS: ${player[turn + 1].powerstats.hitpoints}`);
+            player.forEach( (element) => {
+                console.log(element.powerstats);
+            })
 
             return player;
 
@@ -135,9 +138,12 @@ function dice20C(D20C, player, D3C) {
         else {
             damage = (player[turn].powerstats.strength + player[turn].powerstats.power) * diceValue;
             player[turn - 1].powerstats.hitpoints -= damage;
-            console.log("DAMAGE", damage);
+            console.log("DAMAGE:", damage);
 
             console.log(`${player[turn - 1].name} received damage: HITPOINTS: ${player[turn - 1].powerstats.hitpoints}`);
+            player.forEach( (element) => {
+                console.log(element.powerstats);
+            })
 
             return player;
 
@@ -148,21 +154,28 @@ function dice20C(D20C, player, D3C) {
         switch (diceValue) {
             case 18:
                 while (indexDice < 1) {
-                    dice3Cvalue = D3C[Math.floor(Math.random() * D3C.length)]
+                    dice3Cvalue = getDado(3);
                     indexDice++;
                 }
-                damage = (player[turn].powerstats.intelligence * player[turn].powerstats.durability * dice3Cvalue) / 100;
+                damage = Math.floor((player[turn].powerstats.intelligence * player[turn].powerstats.durability * dice3Cvalue) / 100);
                 if (turn === 0) {
                     player[turn + 1].powerstats.hitpoints -= damage;
 
-                    console.log("DAMAGE", damage);
+                    console.log("DAMAGE:", damage);
                     console.log(`${player[turn + 1].name} received damage: HITPOINTS: ${player[turn + 1].powerstats.hitpoints}`);
+                    player.forEach( (element) => {
+                        console.log(element.powerstats);
+                    })
 
                 }
                 else {
+
                     player[turn - 1].powerstats.hitpoints -= damage;
 
                     console.log(`${player[turn - 1].name} received damage: HITPOINTS: ${player[turn - 1].powerstats.hitpoints}`);
+                    player.forEach( (element) => {
+                        console.log(element.powerstats);
+                    })
 
 
                 }
@@ -171,43 +184,56 @@ function dice20C(D20C, player, D3C) {
 
             case 19:
                 while (indexDice < 2) {
-                    dice3Cvalue = + D3C[Math.floor(Math.random() * D3C.length)];
+                    dice3Cvalue = + getDado(3);;
                     indexDice++;
                 }
-                damage = (player[turn].powerstats.intelligence * player[turn].powerstats.durability * dice3Cvalue) / 100;
+                damage = Math.floor((player[turn].powerstats.intelligence * player[turn].powerstats.durability * dice3Cvalue) / 100);
 
                 if (turn === 0) {
                     player[turn + 1].powerstats.hitpoints -= damage;
 
                     console.log(`${player[turn + 1].name} received damage: HITPOINTS: ${player[turn + 1].powerstats.hitpoints}`);
 
+                    player.forEach( (element) => {
+                        console.log(element.powerstats);
+                    })
                 }
                 else {
                     player[turn - 1].powerstats.hitpoints -= damage;
 
                     console.log(`${player[turn - 1].name} received damage: HITPOINTS: ${player[turn - 1].powerstats.hitpoints}`);
 
+                    player.forEach( (element) => {
+                        console.log(element.powerstats);
+                    })
 
                 }
                 return player
 
             case 20:
                 while (indexDice < 3) {
-                    dice5Cvalue = + dice5C[Math.floor(Math.random() * dice5C.length)];
+                    dice5Cvalue = + getDado(5);
                     indexDice++;
                 }
-                damage = (player[turn].powerstats.intelligence * player[turn].powerstats.durability * dice5Cvalue) / 100;
+                damage = Math.floor((player[turn].powerstats.intelligence * player[turn].powerstats.durability * dice5Cvalue) / 100);
 
                 if (turn === 0) {
                     player[turn + 1].powerstats.hitpoints -= damage;
                     console.log(`${player[turn + 1].name} received damage: HITPOINTS: ${player[turn + 1].powerstats.hitpoints}`);
+                    player.forEach( (element) => {
+                        console.log(element.powerstats);
+                    })
+
                 }
                 else {
                     player[turn - 1].powerstats.hitpoints -= damage;
                     console.log(`${player[turn - 1].name} received damage: HITPOINTS: ${player[turn - 1].powerstats.hitpoints}`);
+                    player.forEach( (element) => {
+                        console.log(element.powerstats);
+                    })
+
                     turn--;
                     
-
                 }
                 return player
 
