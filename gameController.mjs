@@ -16,8 +16,8 @@ function gameStart(villain, superHero, D100C, D20C, D3C) {
         players.push(villain);
     }
 
+
     while (villain.powerstats.hitpoints > 0 && superHero.powerstats.hitpoints > 0) {
-        
         console.log(`ROUND: ${round}`);
         
         if (turn === 0) {
@@ -43,6 +43,7 @@ function gameStart(villain, superHero, D100C, D20C, D3C) {
             console.log(`${element.name} HA PERDIDO EL COMBATE`)
         }
     })
+
     players.forEach ( (element) => {
         if (element.powerstats.hitpoints > 0)
         {

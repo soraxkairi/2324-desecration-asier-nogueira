@@ -1,20 +1,11 @@
 
-
 function getVillain(data){
-let villain = -1;
-    data.forEach( (element) => {
-        if (element.name === "Junkpile")
-        {
-            villain = element;
-            villain.powerstats.hitpoints = villain.powerstats.strength * 10;
-        }
-    })
-    return villain;
+    const villain = data.find(element => element.name === "Junkpile");
+    return villain
 }
 
 function getSuperHero(data){
     let superHero = -1;
-
     superHero = data[Math.floor(Math.random() * data.length)];
     superHero.powerstats.hitpoints = superHero.powerstats.strength * 10;
     if (superHero.powerstats.hitpoints > 666)
