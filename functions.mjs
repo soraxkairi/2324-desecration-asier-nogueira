@@ -1,6 +1,7 @@
 
 function getVillain(data){
-    const villain = data.find(element => element.name === "Junkpile");
+    let villain = data.find(element => element.name === "Junkpile");
+    villain.powerstats.hitpoints = 666;
     return villain
 }
 

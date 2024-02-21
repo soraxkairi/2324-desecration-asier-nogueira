@@ -16,6 +16,8 @@ function gameStart(villain, superHero, D100C, D20C, D3C) {
         players.push(villain);
     }
 
+    console.log(villain.powerstats.hitpoints);
+    console.log(superHero.powerstats.hitpoints);
 
     while (villain.powerstats.hitpoints > 0 && superHero.powerstats.hitpoints > 0) {
         console.log(`ROUND: ${round}`);
