@@ -3,6 +3,8 @@ import { getDado } from "./functions.mjs";
 let turn = 0;
 
 function gameStart(villain, superHero) {
+    console.log("WELCOME TO THE COMBAT ARENA")
+
     console.log(`${villain.name} VS ${superHero.name}`);
     console.log("--------------------------------------------------");
     const players = [];
@@ -16,6 +18,14 @@ function gameStart(villain, superHero) {
         players.push(villain);
     }
 
+    console.log("Listado de atributos");
+    console.log("-------------------------------------");
+
+    players.forEach((element) => {
+        console.log(element.name);
+        console.log(element.powerstats);
+
+    })
 
     while (villain.powerstats.hitpoints > 0 && superHero.powerstats.hitpoints > 0) {
         console.log("-----------------------------------------");
